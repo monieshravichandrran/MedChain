@@ -4,14 +4,18 @@ import { Route, Router } from "react-router-dom";
 import Login from './pages/Login';
 import Hospital from './pages/hospital/Hospital';
 import Patient from './pages/patient/Patient';
+import AddMedicalRecord from './pages/hospital/AddMedicalRecord';
+import ViewMedicalRecord from './pages/hospital/ViewMedicalRecord';
 
 function App() {
   return (
-      <Router history={history}>
-        <Route path="/" exact component={Login} />
-        <Route path="/hospital" exact component={Hospital} />
-        <Route path="/patient" exact component={Patient} />
-      </Router>
+    <Router history={history}>
+      <Route path="/" exact component={Login} />
+      <Route path="/hospital" exact component={Hospital} />
+      <Route path="/patient" exact component={Patient} />
+      <Route path="/hospital/add" exact component={AddMedicalRecord} />
+      <Route path="/hospital/view" exact component={ViewMedicalRecord} />
+    </Router>
   );
 }
 
