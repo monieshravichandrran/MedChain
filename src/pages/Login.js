@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { Link } from "react-router-dom";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { getFirestore } from "firebase/firestore";
-import { history } from "../history";
+import firebase from "../firebaseConfig";
+import { history } from '../history';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 const Login = () => {
