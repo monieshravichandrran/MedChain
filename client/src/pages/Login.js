@@ -2,16 +2,13 @@ import React, { useState } from 'react';
 import { Link } from "react-router-dom";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { getFirestore } from "firebase/firestore";
-import firebase from "../firebaseConfig";
 import { history } from "../history";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { useSelector, useDispatch } from "react-redux";
 
 const Login = () => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [loginError, setLoginError] = useState();
-  //const dispatch = useDispatch();
   const loginHandler = async(event) => {
     event.preventDefault();
     const auth = getAuth();
@@ -23,13 +20,13 @@ const Login = () => {
             password
         );
         const user = userCredential.user;
+        console.log(user);
         const usersRef = collection(db, "users");
         const q = query(usersRef, where("email", "==", email));
         const querySnapshot = await getDocs(q);
         let type = -1;
         querySnapshot.forEach((doc) => {
-          console.log(doc);
-            if (doc.data().email == email) {
+            if (doc.data().email === email) {
                 type = doc.data().type;
             }
         });
