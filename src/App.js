@@ -6,6 +6,7 @@ import Hospital from './pages/hospital/Hospital';
 import Patient from './pages/patient/Patient';
 import AddMedicalRecord from './pages/hospital/AddMedicalRecord';
 import ViewMedicalRecord from './pages/hospital/ViewMedicalRecord';
+import PatientView from './pages/patient/PatientView';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
       <Route path="/patient" exact component={Patient} />
       <Route path="/hospital/add" exact component={AddMedicalRecord} />
       <Route path="/hospital/view" exact component={ViewMedicalRecord} />
+      <Route path="/patient/view" exact component={PatientView} />
     </Router>
   );
 }

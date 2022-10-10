@@ -97,7 +97,6 @@ const Hospital = () => {
 
   return (
     <>
-      {auth.type != -1 ?
         <div className="relative">
           <SignOut />
           <FullPageLoader show={loader} />
@@ -194,7 +193,6 @@ const Hospital = () => {
             </div>
           </div>
         </div>
-        : <NotFound />}
     </>
   )
 }

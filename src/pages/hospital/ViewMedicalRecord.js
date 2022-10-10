@@ -178,7 +178,7 @@ const ViewMedicalRecord = () => {
                   <div className="flex justify-center">
                     <Link
                       to="/hospital/add"
-                      className="text-xl"
+                      className="text-xl hover:text-red-500"
                     >
                       Add a new patient record
                     </Link>
