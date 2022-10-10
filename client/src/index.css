@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 html{
-  background-image: url('./images/bgimg.jpeg');
+  background-image: url('./images/bgimg.webp');
   background-size: cover;
   background-repeat: no-repeat;
 }
@@ -11,7 +11,7 @@ html{
 body {
   margin: 0;
   min-height: 100vh;
-  background: linear-gradient(rgba(0,0,0,0.7),rgba(0,0,0,0.7));
+  /* background: linear-gradient(rgba(0,0,0,0.7),rgba(0,0,0,0.7)); */
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
