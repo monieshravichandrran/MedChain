@@ -3,51 +3,61 @@ import { Link } from "react-router-dom";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { getFirestore } from "firebase/firestore";
 import firebase from "../firebaseConfig";
+import FullPageLoader from "../components/FullPageLoader";
 import { history } from '../history';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { useSelector, useDispatch } from "react-redux";
 
 const Login = () => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [loginError, setLoginError] = useState();
-  const loginHandler = async(event) => {
+  const [loaderShow, setLoaderShow] = useState(false);
+  const dispatch = useDispatch();
+  const loginHandler = async (event) => {
     event.preventDefault();
+    setLoaderShow(true);
     const auth = getAuth();
     const db = getFirestore();
     try {
-        const userCredential = await signInWithEmailAndPassword(
-            auth,
-            email,
-            password
-        );
-        const user = userCredential.user;
-        console.log(user);
-        const usersRef = collection(db, "users");
-        const q = query(usersRef, where("email", "==", email));
-        const querySnapshot = await getDocs(q);
-        let type = -1;
-        querySnapshot.forEach((doc) => {
-            if (doc.data().email === email) {
-                type = doc.data().type;
-            }
-        });
-
-        switch (type) {
-            case 1:
-                history.replace("/patient");
-                break;
-            case 2:
-                history.replace("/hospital");
-                break;
-            default:
-                break;
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = userCredential.user;
+      console.log(user);
+      const usersRef = collection(db, "users");
+      const q = query(usersRef, where("email", "==", email));
+      const querySnapshot = await getDocs(q);
+      let type = -1;
+      querySnapshot.forEach((doc) => {
+        if (doc.data().email === email) {
+          type = doc.data().type;
         }
+      });
+      dispatch({
+        type: "SIGN_IN",
+        payload: { user: userCredential.user, type: type },
+      });
+      dispatch({ type: "ACCOUNT_TYPE", payload: type });
+      switch (type) {
+        case 1:
+          history.replace("/patient");
+          break;
+        case 2:
+          history.replace("/hospital");
+          break;
+        default:
+          break;
+      }
     } catch (error) {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode, errorMessage);
-        setLoginError(() => true);
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log(errorCode, errorMessage);
+      setLoginError(() => true);
     }
+    setLoaderShow(false);
   }
 
   return (

@@ -2,8 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-html{
-  background-image: url('./images/bgimg.webp');
+html {
+  background-image: url('./images/bgimg.webp') !important;
   background-size: cover;
   background-repeat: no-repeat;
 }

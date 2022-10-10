@@ -177,10 +177,10 @@ const ViewMedicalRecord = () => {
                   </form>
                   <div className="flex justify-center">
                     <Link
-                      to="/hospital/view"
+                      to="/hospital/add"
                       className="text-xl"
                     >
-                      View the previous records of the Patient
+                      Add a new patient record
                     </Link>
                   </div>
                 </div>
