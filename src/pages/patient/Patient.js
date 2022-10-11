@@ -14,21 +14,27 @@ const Patient = () => {
     const setRequests = async () => {
       let reqs = [];
       const db = getFirestore();
-      const usersRef = collection(db, "customers");
+      const usersRef = collection(db, "requests");
       const q = query(usersRef, where("email", "==", auth.user.email));
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
-          console.log(doc.id);
-          reqs.push({
-              id: doc.id,
-              data: doc.data(),
-          });
+        console.log(doc.id);
+        reqs.push({
+          id: doc.id,
+          data: doc.data(),
+        });
       });
-      console.log(reqs)
+      console.log(reqs);
       setRequ(reqs);
     };
     setRequests();
   }, []);
+
+  const deleteRequest = (id) => {
+    let reqs = Requ;
+    reqs.splice(reqs.indexOf(id), 1);
+    setRequ(reqs);
+  };
 
   return (
     <>
@@ -38,37 +44,27 @@ const Patient = () => {
         <div
           className="h-screen w-screen text-white"
           style={{
-            background:
-              "linear-gradient(rgba(0,0,0,0.7),rgba(0,0,0,0.7))",
+            background: "linear-gradient(rgba(0,0,0,0.7),rgba(0,0,0,0.7))",
           }}
         >
           <div className="flex justify-center content-center w-full">
-            <h1 className="text-5xl font-montserrat mt-10">
-              Welcome to Middlemen
-            </h1>
+            <h1 className="text-5xl font-montserrat mt-10">Welcome to Middlemen</h1>
           </div>
           <div className="flex justify-center">
-            <Link
-              to="/patient/view"
-              className="text-xl mt-10 hover:text-red-500"
-            >
+            <Link to="/patient/view" className="text-xl mt-10 hover:text-red-500">
               View your older medical records
             </Link>
           </div>
           <div className="flex justify-center content-center w-full">
-            <p className="text-3xl mt-5 font-montserrat">
-              You have {Requ.length} Request
-            </p>
+            <p className="text-3xl mt-5 font-montserrat">You have {Requ.length} Request</p>
           </div>
 
           <div className="flex justify-center content-center w-full mt-20">
-            <ul >
+            <ul>
               {Requ.length > 0 ? (
                 <li>
                   <div className="ml-10 grid grid-cols-3 mb-10">
-                    <h1 className="text-white text-2xl mr-20">
-                      Company Name
-                    </h1>
+                    <h1 className="text-white text-2xl mr-20">Company Name</h1>
 
                     <h1 className="text-white text-2xl mr-20">Accept</h1>
                     <h1 className="text-white text-2xl mr-20">Reject</h1>
@@ -79,14 +75,16 @@ const Patient = () => {
               )}
               {Requ.map((grant) => {
                 id++;
-                return <PermissionGrant key={id} grants={grant.data} />;
+                return (
+                  <PermissionGrant key={id} grants={grant.data} deleteRequest={deleteRequest} />
+                );
               })}
             </ul>
           </div>
         </div>
       </>
     </>
-  )
-}
+  );
+};
 
 export default Patient;

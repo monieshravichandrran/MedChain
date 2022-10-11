@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import SignOut from '../../components/FullPageLoader';
+import SignOut from "../../components/SignOut";
 import GoBack from '../../components/GoBack';
 import FullPageLoader from '../../components/FullPageLoader';
 import { useSelector } from "react-redux";
@@ -33,7 +33,7 @@ const Hospital = () => {
       let reqs = [];
       const setRequests = async () => {
         const db = getFirestore();
-        const usersRef = collection(db, "users");
+        const usersRef = collection(db, "requests");
         const q = query(
           usersRef,
           where("email", "==", patientmail),
@@ -51,7 +51,7 @@ const Hospital = () => {
       let reqs1 = [];
       const setRequests1 = async () => {
         const db = getFirestore();
-        const usersRef = collection(db, "Requests");
+        const usersRef = collection(db, "permissions");
         const q = query(
           usersRef,
           where("email", "==", patientmail),
@@ -77,7 +77,7 @@ const Hospital = () => {
         reqs1.length == 0) {
         await firebase
           .firestore()
-          .collection("permissions")
+          .collection("requests")
           .doc()
           .set({
             email: patientmail,
@@ -98,8 +98,8 @@ const Hospital = () => {
   return (
     <>
         <div className="relative">
-          <SignOut />
           <FullPageLoader show={loader} />
+          <SignOut />
           <GoBack />
           <div className="h-screen w-screen text-white font-montserrat">
             <div className="inline float-right">
