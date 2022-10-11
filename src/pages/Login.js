@@ -62,6 +62,7 @@ const Login = () => {
 
   return (
     <>
+      <FullPageLoader show={loaderShow} />
       <div className="w-full flex items-center justify-between">
         <div className="pt-40 pl-20">
           <div className="card bg-white shadow-md rounded-lg px-4 py-4 mb-6 ">

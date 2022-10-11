@@ -5,7 +5,7 @@ const FullPageLoader = ({ show }) => {
         <div
             className={`${
                 show ? "block" : "hidden"
-            } loader-par flex justify-center items-center w-screen h-screen absolute`}
+            } loader-par flex justify-center items-center w-screen h-screen absolute bg-gray-300/75 text-5xl`}
         >
             <div className="loader">Loading...</div>
         </div>
