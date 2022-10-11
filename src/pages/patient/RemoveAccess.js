@@ -22,6 +22,7 @@ const RemoveAccess = () => {
   const [show, setShow] = useState(false);
   const [records, setRecords] = useState([]);
   const [loaderShow, setLoaderShow] = useState(false);
+  const [change,setChange] = useState(false);
   useEffect(() => {
     const db = getFirestore();
     const usersRef = collection(db, "permissions");
@@ -41,7 +42,7 @@ const RemoveAccess = () => {
       console.log(reqs);
       setShow(true);
     })
-  }, [])
+  }, [change])
   return (
     <>
       {show ? <>
@@ -96,6 +97,7 @@ const RemoveAccess = () => {
                                 querySnapshot.forEach((doc) => {
                                   doc.ref.delete().then(() => {
                                     console.log("Document successfully deleted!");
+                                    setChange(!change);
                                   }).catch(function (error) {
                                     console.error("Error removing document: ", error);
                                   });
