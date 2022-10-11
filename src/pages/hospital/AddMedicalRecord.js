@@ -15,12 +15,14 @@ import firebase from "../../firebaseConfig";
 import "firebase/firestore";
 import { CgProfile } from "react-icons/cg";
 import IPFS from "../../IPFS";
+import { Web3Storage } from 'web3.storage'
+
+// Construct with token and endpoint
+const client = new Web3Storage({ token: process.env.ipfsKey });
 
 const AddMedicalRecord = () => {
   const [Requ, setRequ] = useState();
-  const [insMail, setInsMail] = useState("");
-  const [aadhar, setAadhar] = useState("");
-  const [money, setMoney] = useState("");
+  const [description,setDescription] = useState("");
   const [dsFile, setDsFile] = useState("");
   const [patientMail, setPatientMail] = useState("");
   const [error, setError] = useState("");
@@ -30,32 +32,21 @@ const AddMedicalRecord = () => {
   const formHandler = async (event) => {
     setLoaderShow(true);
     setError("");
-    console.log("Clicked");
+    console.log(patientMail, auth.user.email)
     event.preventDefault();
-    if (insMail.length == 0) {
-      setError("Enter Insurance Mail");
-    } else if (patientMail.length == 0) {
+    if (patientMail.length == 0) {
       setError("Enter Patient Mail");
-    } else if (aadhar.length == 0) {
-      setError("Enter Patient Aadhar Number");
-    } else if (aadhar.length != 12) {
-      setError("Enter Valid Patient Aadhar Number");
-    } else if (money.length == 0) {
-      setError("Enter Money");
-    } else if (money <= 0) {
-      setError("Enter valid money");
     } else if (dsFile.length == 0) {
       setError("Attach discharge summary");
     } else {
-      console.log("else ");
       let reqs = [];
       const setRequests = async () => {
         const db = getFirestore();
-        const usersRef = collection(db, "HospitalRead");
+        const usersRef = collection(db, "permissions");
         const q = query(
           usersRef,
           where("email", "==", patientMail),
-          where("from", "==", auth.user.email)
+          where("grant", "==", auth.user.email)
         );
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
@@ -66,90 +57,47 @@ const AddMedicalRecord = () => {
         });
         setRequ(reqs);
       };
-      let reqs1 = [];
-      const setRequests1 = async () => {
-        const db = getFirestore();
-        const usersRef = collection(db, "InsuranceWrite");
-        const q = query(
-          usersRef,
-          where("email", "==", patientMail),
-          where("from", "==", insMail)
-        );
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((doc) => {
-          reqs1.push({
-            id: doc.id,
-            data: doc.data(),
-          });
-        });
-        setRequ(reqs1);
-      };
-      let reqs2 = [];
-      const setRequests2 = async () => {
-        const db2 = getFirestore();
-        const usersRef2 = collection(db2, "insurance");
-        const q2 = query(
-          usersRef2,
-          where("from", "==", auth.user.email),
-          where("patient", "==", patientMail)
-        );
-        const querySnapshot2 = await getDocs(q2);
-        querySnapshot2.forEach((doc) => {
-          reqs2.push({
-            id: doc.id,
-            data: doc.data(),
-          });
-        });
-        setRequ(reqs2);
-      };
       await setRequests();
-      await setRequests1();
-      await setRequests2();
-      console.log(reqs, reqs1, reqs2);
       const task = async () => {
-        if (reqs.length > 0 && reqs1.length > 0 && reqs2.length == 0) {
-          const response = await IPFS.add(dsFile);
+        if (reqs.length > 0) {
+          const fileInput = document.querySelector('input[type="file"]')
+          const response = await client.put(fileInput.files)
           let asciiArray = [];
-          for (let i = 0; i < response.path.length; ++i)
-            asciiArray.push(response.path.charCodeAt(i));
+          for (let i = 0; i < response.length; ++i)
+            asciiArray.push(response.charCodeAt(i));
+          console.log(asciiArray);
           await firebase
             .firestore()
-            .collection("insurance")
+            .collection("Records")
             .doc()
             .set({
-              email: insMail,
-              from: auth.user.email,
-              aadhar: aadhar,
               patient: patientMail,
-              money: parseFloat(money),
+              hospital: auth.user.email,
+              description: description
             })
             .then(() => { });
-          const db = getFirestore();
-          const usersRef = collection(db, "users");
-          const q = query(
-            usersRef,
-            where("email", "==", patientMail)
-          );
-          let acc = [];
-          const querySnapshot = await getDocs(q);
-          querySnapshot.forEach((doc) => {
-            acc.push({
-              id: doc.id,
-              data: doc.data(),
-            });
-          });
-          console.log(acc[0].data.address, accounts[0]);
-          await contract.methods
-            .addDS(acc[0].data.address, asciiArray)
-            .send({ from: accounts[0], gas: "6000000" });
+
+          // integrate metamask wallet
+          // const db = getFirestore();
+          // const usersRef = collection(db, "users");
+          // const q = query(
+          //   usersRef,
+          //   where("email", "==", patientMail)
+          // );
+          // let acc = [];
+          // const querySnapshot = await getDocs(q);
+          // querySnapshot.forEach((doc) => {
+          //   acc.push({
+          //     id: doc.id,
+          //     data: doc.data(),
+          //   });
+          // });
+          // console.log(acc[0].data.address, accounts[0]);
+          // await contract.methods
+          //   .addDS(acc[0].data.address, asciiArray)
+          //   .send({ from: accounts[0], gas: "6000000" });
         } else if (reqs.length == 0) {
           setError("You dont have the Read Access of the Patient");
-        } else if (reqs1.length == 0) {
-          setError(
-            "The Patient donot have an insurance in this company"
-          );
-        } else if (reqs2.length != 0) {
-          setError("You have already sent request for same patient");
         }
       };
       await task();
@@ -197,7 +145,7 @@ const AddMedicalRecord = () => {
                   <div className="mb-4">
                     <label
                       className="block mb-2 text-sm font-bold text-white"
-                      for="email"
+                      htmlFor="email"
                     >
                       Patient Email
                     </label>
@@ -215,14 +163,14 @@ const AddMedicalRecord = () => {
                     />
                     <label
                       className="block mb-2 text-sm font-bold text-white mt-4"
-                      for="money"
+                      htmlFor="money"
                     >
                       Description
                     </label>
-                    <input type="text" className='w-80 h-28' />
+                    <input type="text" className='w-80 h-28' value={description} onChange={(e) => setDescription(e.target.value)}/>
                     <label
                       className="block mb-2 text-sm font-bold text-white mt-4"
-                      for="money"
+                      htmlFor="money"
                     >
                       File Prescription
                     </label>
