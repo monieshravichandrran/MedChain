@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0
-pragma solidity ^0.4.17;
+pragma solidity ^0.4.18;
 
 contract Record {
   address public administrator;
@@ -10,6 +10,8 @@ contract Record {
   mapping(address => mapping(uint => uint256[])) public patient_records;
   mapping(address => uint) public patient_records_count;
   mapping(address => mapping(address=>uint)) public ad_count;
+  uint256[] public temparr;
+
 
   constructor () public {
       administrator = msg.sender;
@@ -40,22 +42,19 @@ contract Record {
     patient_records_count[patient]++;
   }
 
-  function getPatientRecords(address patient) public payable returns (int256[500] memory) {
+  function getPatientRecords(address patient) public payable returns (uint256[] memory) {
     require(hospital[msg.sender]);
     require(patients[patient]);
-    
-    int256[500] storage ipfsAsciis;
-    uint256 cnt = 0;
-    for (uint i=0; i<patient_records_count[patient]; ++i) {
-        for(uint j=0; j<patient_records[patient][i].length; ++j) {
-            ipfsAsciis[cnt] = int256(patient_records[patient][i][j]);
-            cnt++;
-        }
-        ipfsAsciis[cnt] = -1;
-        cnt++;
+    temparr.length=0;
+    for(uint i=0;i<patient_records_count[patient];++i)
+    {
+      for(uint j=0;j<patient_records[patient][i].length;++j)
+      {
+        temparr.push(uint256(patient_records[patient][i][j]));
+      }
+      temparr.push(uint256(1000));
     }
-
-    return ipfsAsciis;
+    return temparr;
   }
 
 }
