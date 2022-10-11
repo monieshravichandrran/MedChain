@@ -5,28 +5,30 @@ import SignOut from "../../components/SignOut";
 import GoBack from "../../components/GoBack";
 import PermissionGrant from "../../components/PermissionGrant";
 import { Link } from "react-router-dom";
+import { collection, getDocs, getFirestore, query, where } from "firebase/firestore";
 const Patient = () => {
   const auth = useSelector((state) => state.auth);
-  const [Requ, setRequ] = useState([{ id: "a", from: "appolo@medchain.com" }, { id: "b", from: "billroath@medchain.com" }]);
+  const [Requ, setRequ] = useState([]);
   let id = 0;
   useEffect(() => {
-    // const setRequests = async () => {
-    //     let reqs = [];
-    //     const db = getFirestore();
-    //     const usersRef = collection(db, "customers");
-    //     const q = query(usersRef, where("email", "==", auth.user.email));
-    //     const querySnapshot = await getDocs(q);
-    //     querySnapshot.forEach((doc) => {
-    //         console.log(doc.id);
-    //         reqs.push({
-    //             id: doc.id,
-    //             data: doc.data(),
-    //         });
-    //     });
-    //     setRequ(reqs);
-    // };
-    // setRequests();
-  }, [Requ]);
+    const setRequests = async () => {
+      let reqs = [];
+      const db = getFirestore();
+      const usersRef = collection(db, "customers");
+      const q = query(usersRef, where("email", "==", auth.user.email));
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+          console.log(doc.id);
+          reqs.push({
+              id: doc.id,
+              data: doc.data(),
+          });
+      });
+      console.log(reqs)
+      setRequ(reqs);
+    };
+    setRequests();
+  }, []);
 
   return (
     <>
@@ -77,7 +79,7 @@ const Patient = () => {
               )}
               {Requ.map((grant) => {
                 id++;
-                return <PermissionGrant key={id} grants={grant} />;
+                return <PermissionGrant key={id} grants={grant.data} />;
               })}
             </ul>
           </div>
