@@ -12,6 +12,7 @@ import { useDispatch } from "react-redux";
 import Record from "./ethereum/build/Record.json";
 import { contractAddress } from "./ethereum/contractAddress";
 import Web3 from "web3";
+import RemoveAccess from "./pages/patient/RemoveAccess";
 
 function App() {
   const dispatch = useDispatch();
@@ -45,6 +46,7 @@ function App() {
       <Route path="/hospital/add" exact component={AddMedicalRecord} />
       <Route path="/hospital/view" exact component={ViewMedicalRecord} />
       <Route path="/patient/view" exact component={PatientView} />
+      <Route path="/patient/manage" exact component={RemoveAccess} />
     </Router>
   );
 }
