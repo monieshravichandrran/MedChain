@@ -68,8 +68,6 @@ const Hospital = () => {
       };
       await setRequests();
       await setRequests1();
-      console.log(reqs.length, reqs);
-      console.log(reqs1.length, reqs1);
       if (patientmail.length <= 0) {
         setError("Enter Valid Email");
       } else if (

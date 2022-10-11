@@ -24,7 +24,6 @@ const Patient = () => {
           data: doc.data(),
         });
       });
-      console.log(reqs);
       setRequ(reqs);
     };
     setRequests();
