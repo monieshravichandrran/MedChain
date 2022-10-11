@@ -13,7 +13,7 @@ import { collection, query, where, getDocs } from "firebase/firestore";
 import { getFirestore } from "firebase/firestore";
 import FullPageLoader from "../../components/FullPageLoader";
 import Records from "../../components/Records";
-
+import { AiFillSetting } from "react-icons/ai"
 const PatientView = () => {
   const auth = useSelector((state) => state.auth);
   const [loaderShow, setLoaderShow] = useState(false);
@@ -33,17 +33,8 @@ const PatientView = () => {
         }}
       >
         <div className="inline float-right">
-          <Link to="/insurance/profile">
-            <CgProfile className="inline text-3xl mt-2 mr-5" />
-          </Link>
-          <Link to="/chat">
-            <BsChatFill className="inline text-3xl mt-2 mr-10" />
-          </Link>
-          <Link to="/insurance/bill">
-            <GiTakeMyMoney className="inline text-white text-3xl mt-2 mr-4" />
-          </Link>
-          <Link to="/insurance/grant">
-            <MdApproval className="inline text-3xl mr-4 mt-2 float-left" />
+          <Link to="/patient/manage">
+            <AiFillSetting className="inline text-3xl mt-2 mr-5" />
           </Link>
         </div>
         <div className="flex justify-center content-center w-full">

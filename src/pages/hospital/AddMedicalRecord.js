@@ -18,7 +18,7 @@ import IPFS from "../../IPFS";
 import { Web3Storage } from 'web3.storage'
 
 // Construct with token and endpoint
-const client = new Web3Storage({ token: process.env.ipfsKey });
+const client = new Web3Storage({ token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDEyYmExMERhMTg2RTYxQjg4OGQ5REQyRGQ3NDk4MDZkNEFFMWQ0QUUiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2NjU0NzY5NTQ1ODcsIm5hbWUiOiJtZWRjaGFpbiJ9.MglplRlgfRkzq8kMT-5WmBynk5rMz3WOwMqCEsBfP7w" });
 
 const AddMedicalRecord = () => {
   const [Requ, setRequ] = useState();

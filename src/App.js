@@ -7,6 +7,7 @@ import Patient from './pages/patient/Patient';
 import AddMedicalRecord from './pages/hospital/AddMedicalRecord';
 import ViewMedicalRecord from './pages/hospital/ViewMedicalRecord';
 import PatientView from './pages/patient/PatientView';
+import RemoveAccess from './pages/patient/RemoveAccess';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
       <Route path="/hospital/add" exact component={AddMedicalRecord} />
       <Route path="/hospital/view" exact component={ViewMedicalRecord} />
       <Route path="/patient/view" exact component={PatientView} />
+      <Route path="/patient/manage" exact component={RemoveAccess} />
     </Router>
   );
 }

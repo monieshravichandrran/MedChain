@@ -6,6 +6,7 @@ import GoBack from "../../components/GoBack";
 import PermissionGrant from "../../components/PermissionGrant";
 import { Link } from "react-router-dom";
 import { collection, getDocs, getFirestore, query, where } from "firebase/firestore";
+import { AiFillSetting } from "react-icons/ai"
 const Patient = () => {
   const auth = useSelector((state) => state.auth);
   const [Requ, setRequ] = useState([]);
@@ -46,6 +47,11 @@ const Patient = () => {
             background: "linear-gradient(rgba(0,0,0,0.7),rgba(0,0,0,0.7))",
           }}
         >
+          <div className="inline float-right">
+            <Link to="/patient/manage">
+              <AiFillSetting className="inline text-3xl mt-2 mr-5" />
+            </Link>
+          </div>
           <div className="flex justify-center content-center w-full">
             <h1 className="text-5xl font-montserrat mt-10">Welcome to Middlemen</h1>
           </div>
