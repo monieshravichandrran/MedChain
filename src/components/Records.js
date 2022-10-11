@@ -10,10 +10,10 @@ const Records = (props) => {
   return (
     <li>
     <FullPageLoader show={loader} />
-    <div className="ml-10 grid grid-cols-3 mb-5">
-      <h1 className="text-white text-xl">{props.grant.hospital}</h1>
-      <h1 className="text-white text-xl">{props.grant.description}</h1>
-      <h1 className="text-white text-xl">hello</h1>
+    <div className="grid grid-cols-3 mb-5">
+      <h1 className="text-white text-xl text-center">{props.grant.data.hospital}</h1>
+      <h1 className="text-white text-xl text-center">{props.grant.data.description}</h1>
+      <h1 className="text-white text-xl text-center"><a href={props.grant.data.document} target="_blank">View</a></h1>
     </div>
 </li>
   )

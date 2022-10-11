@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import NotFound from "../NotFound";
 import { BsChatFill } from "react-icons/bs";
@@ -17,9 +17,27 @@ import { AiFillSetting } from "react-icons/ai"
 const PatientView = () => {
   const auth = useSelector((state) => state.auth);
   const [loaderShow, setLoaderShow] = useState(false);
-  const [Requ, setRequ] = useState([{ id: 'a', hospital: "appolo@medchain.com", description: "Heart Attack last night" }]);
+  const [Requ, setRequ] = useState([]);
   let id = 0;
   console.log(auth);
+  useEffect(()=>{
+    const db = getFirestore();
+    const usersRef = collection(db, "Records");
+    const q = query(
+      usersRef,
+      where("patient", "==", auth.user.email)
+    );
+    let reqs = [];
+    getDocs(q).then((querySnapshot)=>{
+      querySnapshot.forEach((doc) => {
+        reqs.push({
+          id: doc.id,
+          data: doc.data(),
+        });
+      });
+      setRequ(reqs);
+    });
+  },[])
   return (
     <>
       <SignOut />
@@ -46,17 +64,17 @@ const PatientView = () => {
           {Requ.length > 0 ? (
             <li>
               <div className="ml-10 grid grid-cols-3 mb-10">
-                <h1 className="text-white text-2xl">Hospital</h1>
+                <h1 className="text-white text-2xl text-center">Hospital</h1>
                 <h1 className="text-white text-2xl text-center">
                   Description
                 </h1>
                 <h1 className="text-white text-2xl text-center">
-                  <button>View</button>
+                  Medical Record
                 </h1>
               </div>
             </li>
           ) : (
-            <></>
+            null
           )}
           {Requ.map((grant) => {
             id++;

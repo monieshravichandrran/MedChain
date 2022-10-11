@@ -73,7 +73,8 @@ const AddMedicalRecord = () => {
             .set({
               patient: patientMail,
               hospital: auth.user.email,
-              description: description
+              description: description,
+              document: 'https://ipfs.io/ipfs/'+response
             })
             .then(() => { });
 
@@ -190,7 +191,7 @@ const AddMedicalRecord = () => {
                       type="button"
                       onClick={formHandler}
                     >
-                      Request
+                      Add
                     </button>
                   </div>
                   <div className="flex justify-center">

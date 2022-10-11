@@ -69,7 +69,7 @@ const Patient = () => {
               {Requ.length > 0 ? (
                 <li>
                   <div className="ml-10 grid grid-cols-3 mb-10">
-                    <h1 className="text-white text-2xl mr-20">Company Name</h1>
+                    <h1 className="text-white text-2xl mr-20">Hospital Name</h1>
 
                     <h1 className="text-white text-2xl mr-20">Accept</h1>
                     <h1 className="text-white text-2xl mr-20">Reject</h1>
