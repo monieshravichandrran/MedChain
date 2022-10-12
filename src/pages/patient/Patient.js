@@ -55,7 +55,7 @@ const Patient = () => {
             </Link>
           </div>
           <div className="flex justify-center content-center w-full">
-            <h1 className="text-5xl font-montserrat mt-10">Welcome to Middlemen</h1>
+            <h1 className="text-5xl font-montserrat mt-10">Welcome to MedChain</h1>
           </div>
           <div className="flex justify-center">
             <Link to="/patient/view" className="text-xl mt-10 hover:text-red-500">

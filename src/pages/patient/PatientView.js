@@ -56,7 +56,7 @@ const PatientView = () => {
         </div>
         <div className="flex justify-center content-center w-full">
           <h1 className="text-5xl font-montserrat mt-10">
-            Welcome to Middlemen
+            Welcome to MedChain
           </h1>
         </div>
         <ul className="mt-10">
