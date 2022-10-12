@@ -162,7 +162,7 @@ const AddMedicalRecord = () => {
                     >
                       Description
                     </label>
-                    <input type="text" className='w-80 h-28' value={description} onChange={(e) => setDescription(e.target.value)}/>
+                    <input type="text" className='w-80 h-28 text-black' value={description} onChange={(e) => setDescription(e.target.value)}/>
                     <label
                       className="block mb-2 text-sm font-bold text-white mt-4"
                       htmlFor="money"

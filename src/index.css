@@ -5,7 +5,7 @@
 html {
   background-image: url('./images/bgimg.webp') !important;
   background-size: cover;
-  background-repeat: no-repeat;
+  background-repeat: repeat;
 }
 
 body {
