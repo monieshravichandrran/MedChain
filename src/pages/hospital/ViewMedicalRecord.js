@@ -13,7 +13,6 @@ import {
 } from "@firebase/firestore";
 import firebase from "../../firebaseConfig";
 import "firebase/firestore";
-import { CgProfile } from "react-icons/cg";
 import { GiTakeMyMoney } from "react-icons/gi";
 import { BsChatFill } from "react-icons/bs";
 import Records from '../../components/Records';
@@ -34,6 +33,24 @@ const ViewMedicalRecord = () => {
       setError("Enter Patient Mail");
     } else {
       let reqs = [];
+      let reqs1 = [];
+      const setRequests1 = async () => {
+        const db = getFirestore();
+        const usersRef = collection(db, "permissions");
+        const q = query(
+          usersRef,
+          where("email", "==", patientmail),
+          where("grant", "==", auth.user.email)
+        );
+        console.log(q);
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+          reqs1.push({
+            id: doc.id,
+            data: doc.data(),
+          });
+        });
+      };
       const setRequests = async () => {
         const db = getFirestore();
         const usersRef = collection(db, "Records");
@@ -51,11 +68,19 @@ const ViewMedicalRecord = () => {
         setRequ(reqs);
       };
       await setRequests();
+      await setRequests1();
       console.log(reqs.length, reqs);
       if (patientmail.length <= 0) {
         setError("Enter Valid Email");
+        setLoader(false);
         return;
       }
+      else if (reqs1.length <= 0) {
+        setError("You don't have access to this Patient");
+        setLoader(false);
+        return;
+      }
+      console.log(reqs1);
       setShowRecords(true);
       setPatientMail("");
     }
@@ -64,6 +89,8 @@ const ViewMedicalRecord = () => {
 
   return (
     <>
+      <SignOut />
+      <GoBack />
       {showRecords ? <div
         className="h-screen w-screen text-white"
         style={{
@@ -92,21 +119,14 @@ const ViewMedicalRecord = () => {
           ) : (
             null
           )}
-          {Request.map((grant,index) => {
-            return <Records key={index+1} grant={grant} />;
+          {Request.map((grant, index) => {
+            return <Records key={index + 1} grant={grant} />;
           })}
         </ul>
       </div> :
         <div className="relative">
-          <SignOut />
           <FullPageLoader show={loader} />
-          <GoBack />
           <div className="h-screen w-screen text-white font-montserrat">
-            <div className="inline float-right">
-              <Link to="/hospital/profile">
-                <CgProfile className="inline text-3xl mt-2 mr-5" />
-              </Link>
-            </div>
             <div className="flex justify-center content-center w-full">
               <h1 className="text-5xl font-montserrat mt-10">
                 Welcome to MedChain
@@ -165,7 +185,7 @@ const ViewMedicalRecord = () => {
                         </button>
                       </div>
                       <div className="flex justify-center">
-                        <p className="text-white text-lg">
+                        <p className="text-red-500 text-lg">
                           {error}
                         </p>
                       </div>

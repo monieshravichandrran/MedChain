@@ -8,7 +8,6 @@ import "firebase/firestore";
 import SignOut from "../../components/SignOut";
 import GoBack from "../../components/GoBack";
 import { GiTakeMyMoney } from "react-icons/gi";
-import { CgProfile } from "react-icons/cg";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { getFirestore } from "firebase/firestore";
 import FullPageLoader from "../../components/FullPageLoader";

@@ -10,6 +10,7 @@ import { AiFillSetting } from "react-icons/ai"
 const Patient = () => {
   const auth = useSelector((state) => state.auth);
   const [Requ, setRequ] = useState([]);
+  const [reload, setReload] = useState(false);
   let id = 0;
   useEffect(() => {
     const setRequests = async () => {
@@ -26,9 +27,10 @@ const Patient = () => {
         });
       });
       setRequ(reqs);
+      setReload(!reload);
     };
     setRequests();
-  }, []);
+  }, [reload]);
 
   const deleteRequest = (id) => {
     let reqs = Requ;

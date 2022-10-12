@@ -13,7 +13,6 @@ import {
 } from "@firebase/firestore";
 import firebase from "../../firebaseConfig";
 import "firebase/firestore";
-import { CgProfile } from "react-icons/cg";
 import IPFS from "../../IPFS";
 import { Web3Storage } from 'web3.storage'
 
@@ -22,7 +21,7 @@ const RemoveAccess = () => {
   const [show, setShow] = useState(false);
   const [records, setRecords] = useState([]);
   const [loaderShow, setLoaderShow] = useState(false);
-  const [change,setChange] = useState(false);
+  const [change, setChange] = useState(false);
   useEffect(() => {
     const db = getFirestore();
     const usersRef = collection(db, "permissions");
@@ -45,18 +44,13 @@ const RemoveAccess = () => {
   }, [change])
   return (
     <>
+      <SignOut />
+      <GoBack />
       {show ? <>
-        <SignOut />
         <FullPageLoader show={loaderShow} />
-        <GoBack />
         <div
           className="h-screen w-screen text-white"
         >
-          <div className="inline float-right">
-            <Link to="/hospital/profile">
-              <CgProfile className="inline text-3xl mt-2 mr-5" />
-            </Link>
-          </div>
           <div className="flex justify-center content-center w-full">
             <h1 className="text-5xl font-montserrat mt-10">
               Welcome to Middlemen

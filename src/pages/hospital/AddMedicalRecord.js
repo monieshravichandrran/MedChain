@@ -13,7 +13,6 @@ import {
 } from "@firebase/firestore";
 import firebase from "../../firebaseConfig";
 import "firebase/firestore";
-import { CgProfile } from "react-icons/cg";
 import IPFS from "../../IPFS";
 import { Web3Storage } from 'web3.storage'
 
@@ -37,7 +36,7 @@ const AddMedicalRecord = () => {
     if (patientMail.length == 0) {
       setError("Enter Patient Mail");
     } else if (dsFile.length == 0) {
-      setError("Attach discharge summary");
+      setError("Attach Medical Record");
     } else {
       let reqs = [];
       const setRequests = async () => {
@@ -113,11 +112,6 @@ const AddMedicalRecord = () => {
       <div
         className="h-screen w-screen text-white"
       >
-        <div className="inline float-right">
-          <Link to="/hospital/profile">
-            <CgProfile className="inline text-3xl mt-2 mr-5" />
-          </Link>
-        </div>
         <div className="flex justify-center content-center w-full">
           <h1 className="text-5xl font-montserrat mt-10">
             Welcome to Middlemen
