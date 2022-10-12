@@ -57,4 +57,11 @@ contract Record {
     return temparr;
   }
 
+  function getPatientRecordsCount(address patient) public payable returns (uint256) {
+    require(hospital[msg.sender]);
+    require(patients[patient]);
+    
+    return patient_records_count[patient];
+  }
+
 }
